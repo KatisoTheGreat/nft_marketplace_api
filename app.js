@@ -5,11 +5,15 @@ const express = require("express");
 const app =express();
 app.use(express.json());
 
+// CUSTOM MIDDLEWARE
+
+
 const nfts = JSON.parse(fs.readFileSync(`${__dirname}/nft-data/data/nft-sample.json`));
 
-//GET METHOD
 
-app.get("/api/v1/nfts", (req, res) => {
+
+//GET METHOD
+const getAllNfts = (req, res) => {
     res.status(200).json({
         status: "success",
         result: nfts.length,
@@ -17,13 +21,10 @@ app.get("/api/v1/nfts", (req, res) => {
             nfts
         }
     });
-});
+};
 
 //POST METHOD
-
-app.post("/api/v1/nfts", (req, res) => {
-    // console.log(req.body);
-    // res.send("Done posting");
+const createNft = (req, res) => {
 
     const newId = nfts[nfts.length - 1].id + 1;
     const newNFTs = Object.assign({id: newId}, req.body);
@@ -36,11 +37,10 @@ app.post("/api/v1/nfts", (req, res) => {
                 nft: newNFTs
         });
     });
-});
+}
 
 // GET SINGLE NFT
-
-app.get("/api/v1/nfts/:id", (req, res) =>{
+const getSingleNft = (req, res) =>{
 
     const id = req.params.id * 1;
     const nft = nfts.find(element => element.id === id);
@@ -58,7 +58,48 @@ app.get("/api/v1/nfts/:id", (req, res) =>{
             nft: nft
         }
     });
-});
+}
+
+// PATCH METHOD
+const patchNft = (req, res) => {
+
+    if (req.params.id * 1 > nfts.length) {
+        res.status(404).json({
+            status: "failed",
+            message: "Invalied ID"
+        });
+    }
+
+    res.status(200).json({
+        status: "success",
+        data: {
+            nft: "Updating NFT"
+        }
+    });
+}
+
+// DELETE METHOD
+const deleteNft = (req, res) => {
+
+    if (req.params.id * 1 > nfts.length) {
+        res.status(404).json({
+            status: "failed",
+            message: "Invalied ID"
+        });
+    }
+
+    res.status(204).json({
+        status: "success",
+        data: null
+    });
+}
+
+
+app.get("/api/v1/nfts", getAllNfts);
+app.post("/api/v1/nfts", createNft);
+app.get("/api/v1/nfts/:id", getSingleNft);
+app.patch("/api/v1/nfts/:id", patchNft);
+app.delete("/api/v1/nfts/:id", deleteNft);
 
 const port = 3000;
 app.listen(port, () => {

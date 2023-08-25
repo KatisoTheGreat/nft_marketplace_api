@@ -1,0 +1,73 @@
+{
+	"info": {
+		"_postman_id": "0148f6d3-dbdd-460b-9642-5b5dfc5fd7e1",
+		"name": "NFT API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "21789674"
+	},
+	"item": [
+		{
+			"name": "GET",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "127.0.0.1:3000/api/v1/nfts"
+			},
+			"response": []
+		},
+		{
+			"name": "POST",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Monkey Monster\",\r\n    \"duration\": 5,\r\n    \"maxGroupSize\": 25\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "127.0.0.1:3000/api/v1/nfts"
+			},
+			"response": []
+		},
+		{
+			"name": "Single NFT",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "127.0.0.1:3000/api/v1/nfts/231"
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE NFT",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Katiso\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "127.0.0.1:3000/api/v1/nfts/11"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE NFT",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "127.0.0.1:3000/api/v1/nfts/4"
+			},
+			"response": []
+		}
+	]
+}
