@@ -1,12 +1,23 @@
 const fs = require("fs");
 const express = require("express");
+const morgan = require("morgan");
 
 
 const app =express();
 app.use(express.json());
+app.use(morgan("dev"));
 
 // CUSTOM MIDDLEWARE
 
+app.use((req, res, next) => {
+    req.requestTime = new Date().toISOString();
+    next();
+});
+
+app.use((req, res, next) => {
+    console.log("This is the middleware");
+    next();
+});
 
 const nfts = JSON.parse(fs.readFileSync(`${__dirname}/nft-data/data/nft-sample.json`));
 
@@ -14,8 +25,10 @@ const nfts = JSON.parse(fs.readFileSync(`${__dirname}/nft-data/data/nft-sample.j
 
 //GET METHOD
 const getAllNfts = (req, res) => {
+    console.log(req.requestTime);
     res.status(200).json({
         status: "success",
+        requestTime: req.requestTime,
         result: nfts.length,
         data: {
             nfts
